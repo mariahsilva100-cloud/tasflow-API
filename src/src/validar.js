@@ -4,8 +4,8 @@ function middlewareFixo (req, res, netx) {
 }
 app.use(middlewareFixo);
 
-function criarMiddleware(configuracao) { // <- recebe regras 
-    return function(req,res, netx) { //<- devolve middleware
+function criarMiddleware(configuracao) { 
+    return function(req,res, netx) { 
         if (configuracao.bloquear) {
             return res.status(403).json({ erro: 'Bloqueado'});
         }
@@ -16,16 +16,16 @@ function criarMiddleware(configuracao) { // <- recebe regras
 app.use('/admain', criarMiddleware({ bloquear: false}));
 app.use('/restrito', criarMiddleware ({ bloquear: true}));
 
-function validar(schemas) {        //<- recebe o schema com as regras
-    return function(req,res, netx)  //<- devolve o middleware
+function validar(schemas) {        
+    return function(req,res, netx)  
 
-    const erros = [];               // lista de erros encontrados
+    const erros = [];               
 
     if (erros.length > 0) {
         return res.status(400).json ({ erros});
 
     }
-    next(); //tudo certo - passa para o controller
+    next(); 
   };
 }
 module.exports = validar;
@@ -41,7 +41,7 @@ function validar(schema) {
 
             if (regras.obrigatorio && ausente) {
                 erros.push(`O campo `)
-                continue; // nao testar as demais regras
+                continue; 
             }
         }
     }
@@ -56,7 +56,7 @@ if (erros.length  > 0)
     return res.status(400).json({ erros });
 next();
 };
-}module.exports = validar
+} module.exports = validar
 
 if (regras.enum && !regras.enum.includes(valor)) {
     erros.push(
